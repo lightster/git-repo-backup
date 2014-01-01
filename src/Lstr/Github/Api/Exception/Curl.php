@@ -1,6 +1,6 @@
 <?php
 
-namespace Lstr\Github\Api;
+namespace Lstr\Github\Api\Exception;
 
 use Exception;
 

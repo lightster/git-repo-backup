@@ -2,7 +2,7 @@
 
 namespace Lstr\Github\Api;
 
-use Exception;
+use Lstr\Github\Api\Exception;
 
 class Caller
 {
