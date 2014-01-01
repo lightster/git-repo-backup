@@ -15,6 +15,8 @@ class Curl extends Exception
 
     public function __construct($curl_handle, $message, $error_number, $output)
     {
+        parent::__construct($message, $error_number);
+
         $this->curl_handle  = $curl_handle;
         $this->message      = $message;
         $this->error_number = $error_number;

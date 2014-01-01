@@ -50,8 +50,6 @@ class Caller
 
         $output = curl_exec($ch);
 
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         if ($error_number = curl_errno($ch)) {
             throw new Exception\Curl(
                 $ch,
@@ -61,13 +59,43 @@ class Caller
             );
         }
 
+        $response  = json_decode($output, true);
+        $http_code = $this->checkHttpCode($ch, $full_url, $response);
+
         $return = array(
             'http_code' => $http_code,
-            'output'    => json_decode($output, true),
+            'response'  => $response,
         );
 
         curl_close($ch);
 
         return $return;
+    }
+
+
+
+    protected function checkHttpCode($ch, $url, $response)
+    {
+        $http_code      = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $http_exception = null;
+        if ($http_code === 401) {
+            $http_exception = '\Lstr\Github\Api\Exception\Unauthorized';
+        } elseif ($http_code === 403) {
+            $http_exception = '\Lstr\Github\Api\Exception\Forbidden';
+        } elseif ($http_code === 404) {
+            $http_exception = '\Lstr\Github\Api\Exception\NotFound';
+        } elseif (!(200 <= $http_code && $http_code < 400)) {
+            $http_exception = '\Lstr\Github\Api\Exception\HttpCode';
+        }
+
+        if ($http_exception) {
+            throw new $http_exception(
+                $url,
+                $http_code,
+                $response
+            );
+        }
+
+        return $http_code;
     }
 }
