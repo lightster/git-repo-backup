@@ -2,7 +2,7 @@
 
 namespace Lstr\Github\Api\Exception;
 
-use Exception;
+use Lstr\Github\Api\Exception;
 
 class Curl extends Exception
 {
