@@ -1,0 +1,23 @@
+{
+    "name": "lightster/github-repo-backup",
+    "description": "Backup your github repos",
+    "keywords": [
+        "github",
+        "backup"
+    ],
+    "homepage": "http://github.com/lightster/github-repo-backup",
+    "autoload": {
+        "psr-0": {
+            "Lstr\\Github\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    }
+}
