@@ -13,7 +13,9 @@ try {
     foreach ($api->getUserRepos()->getData() as $repo) {
         echo "{$repo['full_name']}\n";
     }
-    foreach ($config['users']['lightster']['organizations'] as $organization) {
+    foreach ($api->getUserOrgs()->getData() as $user_org) {
+        $organization = $user_org['login'];
+
         echo "\n\n";
         echo "== {$organization} ==\n";
         foreach ($api->getOrgsRepos(array('organization' => $organization))->getData() as $repo) {
