@@ -6,7 +6,7 @@ use Lstr\Github\Api\Method;
 
 class GetUserRepos extends Method
 {
-    public function run(array $args = null)
+    public function run()
     {
         return $this->getCaller()->performGet(
             '/user/repos'

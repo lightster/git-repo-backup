@@ -5,12 +5,14 @@ namespace Lstr\Github\Api;
 abstract class Method
 {
     private $caller;
+    private $args;
 
 
 
-    public function __construct(Caller $caller)
+    public function __construct(Caller $caller, array $args = null)
     {
         $this->caller = $caller;
+        $this->args   = $args;
     }
 
 
@@ -22,5 +24,12 @@ abstract class Method
 
 
 
-    abstract public function run(array $args = null);
+    protected function getArgs()
+    {
+        return $this->args;
+    }
+
+
+
+    abstract public function run();
 }
