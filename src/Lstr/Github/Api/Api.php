@@ -22,7 +22,7 @@ class Api
         $method     = ucfirst($method);
         $class      = 'Lstr\\Github\\Api\\Method\\' . $method;
 
-        $api_method = new $class($this->caller);
-        return $api_method->run($args);
+        $api_method = new $class($this->caller, $args);
+        return $api_method->run();
     }
 }
