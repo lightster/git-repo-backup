@@ -1,10 +1,10 @@
 <?php
 
-namespace Lstr\Github\Api\Method;
+namespace Lstr\Github\Api\MethodCall;
 
-use Lstr\Github\Api\Method;
+use Lstr\Github\Api\MethodCall;
 
-class GetUserRepos extends Method
+class GetUserRepos extends MethodCall
 {
     public function run()
     {

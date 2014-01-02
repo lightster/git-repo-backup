@@ -2,7 +2,7 @@
 
 namespace Lstr\Github\Api;
 
-abstract class Method
+abstract class MethodCall
 {
     private $caller;
     private $args;

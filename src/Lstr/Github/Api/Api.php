@@ -20,7 +20,7 @@ class Api
     public function __call($method, array $args)
     {
         $method     = ucfirst($method);
-        $class      = 'Lstr\\Github\\Api\\Method\\' . $method;
+        $class      = 'Lstr\\Github\\Api\\MethodCall\\' . $method;
 
         $api_method = new $class($this->caller, $args);
         return $api_method->run();
