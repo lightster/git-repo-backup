@@ -59,15 +59,15 @@ class Caller
             );
         }
 
-        $response  = json_decode($output, true);
-        $http_code = $this->checkHttpCode($ch, $full_url, $response);
-
-        $return = array(
-            'http_code' => $http_code,
-            'response'  => $response,
-        );
+        $response_data = json_decode($output, true);
+        $http_code     = $this->checkHttpCode($ch, $full_url, $response_data);
 
         curl_close($ch);
+
+        $return = new Response(
+            $http_code,
+            $response_data
+        );
 
         return $return;
     }
