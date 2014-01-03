@@ -57,7 +57,7 @@ abstract class MethodCall
 
             if (array_key_exists($key, $this->args)) {
                 $args[$key] = $this->args[$key];
-            } else if ($use_default) {
+            } elseif ($use_default) {
                 $args[$key] = $value;
             }
         }
