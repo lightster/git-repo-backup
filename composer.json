@@ -8,7 +8,7 @@
     "homepage": "http://github.com/lightster/github-repo-backup",
     "autoload": {
         "psr-0": {
-            "Lstr\\Github\\": "src/"
+            "Lstr\\": "src/"
         }
     },
     "repositories": [
