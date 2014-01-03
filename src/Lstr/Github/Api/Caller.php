@@ -18,8 +18,8 @@ class Caller
 
         if (empty($this->config['api_key'])) {
             throw new Exception("'api_key' is a required config option.");
-        } elseif (empty($this->config['username'])) {
-            throw new Exception("'username' is a required config option.");
+        } elseif (empty($this->config['user_agent'])) {
+            throw new Exception("'user_agent' is a required config option.");
         }
     }
 
@@ -28,7 +28,7 @@ class Caller
     public function performGet($uri, array $args = null, array $headers = null)
     {
         $headers  = ($headers ?: array()) + array(
-            "User-Agent: Lstr-Github-Api (username: {$this->config['username']})",
+            "User-Agent: {$this->config['user_agent']}",
             'Authorization: token ' . $this->config['api_key'],
         );
         $args_str = '';
