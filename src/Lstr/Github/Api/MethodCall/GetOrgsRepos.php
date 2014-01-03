@@ -6,16 +6,16 @@ use Lstr\Github\Api\MethodCall;
 
 class GetOrgsRepos extends MethodCall
 {
-    public function run()
+    protected function getRequiredArgumentsList()
     {
-        $args = $this->checkArguments(
-            array(
-                'organization',
-            ),
-            array(
-            )
+        return array(
+            'organization',
         );
+    }
 
+
+    protected function process(array $args)
+    {
         return $this->getCaller()->performGet(
             '/orgs/' . $args['organization'] . '/repos'
         );

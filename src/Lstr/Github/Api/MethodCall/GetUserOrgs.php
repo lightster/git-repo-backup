@@ -6,7 +6,7 @@ use Lstr\Github\Api\MethodCall;
 
 class GetUserOrgs extends MethodCall
 {
-    public function run()
+    protected function process(array $args)
     {
         return $this->getCaller()->performGet(
             '/user/orgs'
