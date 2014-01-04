@@ -14,7 +14,7 @@ class HttpCode extends Exception
 
     public function __construct($url, $http_code, $response)
     {
-        parent::__construct($response['message'], $http_code);
+        parent::__construct($response['message'] . " from <{$url}>", $http_code);
 
         $this->url       = $url;
         $this->http_code = $http_code;
