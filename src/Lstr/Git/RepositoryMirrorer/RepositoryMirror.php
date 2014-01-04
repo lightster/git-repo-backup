@@ -1,6 +1,6 @@
 <?php
 
-namespace Lstr\Git;
+namespace Lstr\Git\RepositoryMirrorer;
 
 use Exception;
 use Psr\Log\LoggerAwareInterface;

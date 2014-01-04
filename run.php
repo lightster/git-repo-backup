@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Lstr\Git\RepositoryMirror;
 use Lstr\Git\RepositoryMirrorer\Logger;
 use Lstr\Git\RepositoryMirrorer\RepositoryListLoader;
+use Lstr\Git\RepositoryMirrorer\RepositoryMirror;
 use Lstr\Github\Api\Exception as ApiException;
 use Lstr\Github\Gateway\Github;
 
