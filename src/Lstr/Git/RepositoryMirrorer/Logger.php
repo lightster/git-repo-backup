@@ -7,7 +7,7 @@ use Psr\Log\LogLevel;
 
 class Logger extends AbstractLogger
 {
-    private $is_verbose;
+    private $is_verbose = false;
 
 
 
@@ -28,10 +28,10 @@ class Logger extends AbstractLogger
      */
     public function log($level, $message, array $context = array())
     {
-        if ($this->is_verbose
-            && (LogLevel::INFO === $level|| LogLevel::DEBUG === $level)
-        ) {
-            fwrite(STDOUT, "{$message}\n");
+        if (LogLevel::INFO === $level|| LogLevel::DEBUG === $level) {
+            if ($this->is_verbose) {
+                fwrite(STDOUT, "{$message}\n");
+            }
         } else {
             fwrite(STDERR, "{$message}\n");
         }
