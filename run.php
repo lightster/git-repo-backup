@@ -40,9 +40,9 @@ try {
                 $logger->debug("  done");
             }
 
-            echo "\n";
+            $logger->debug("");
         } catch (Exception $ex) {
-            $logger->alert("An exception occurred while mirroring repository '{$repo_name}':");
+            $logger->alert("An exception occurred while mirroring repository '{$remote_url}':");
             $logger->alert($ex->getMessage() . "\n\n\n");
         }
     }
