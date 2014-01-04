@@ -9,7 +9,7 @@ class GetOrgsRepos extends MethodCall
     protected function getRequiredArgumentsList()
     {
         return array(
-            'organization',
+            'org',
         );
     }
 
@@ -17,7 +17,7 @@ class GetOrgsRepos extends MethodCall
     protected function process(array $args)
     {
         return $this->getCaller()->performGet(
-            '/orgs/' . $args['organization'] . '/repos'
+            '/orgs/' . $args['org'] . '/repos'
         );
     }
 }
