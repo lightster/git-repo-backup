@@ -2,10 +2,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Lstr\Github\Api\Api;
-use Lstr\Github\Api\Exception as ApiException;
-
 use Lstr\Git\RepositoryMirror;
+use Lstr\Github\Api\Exception as ApiException;
+use Lstr\Github\Gateway\Github;
 
 $config = require 'config.local.php';
 
@@ -13,19 +12,9 @@ try {
     $repos = array();
 
     foreach ($config['github'] as $config_name => $backup_set) {
-        $api = new Api($backup_set);
-
-        $accessible_repos = array();
-        foreach ($api->getUserRepos()->getData() as $repo) {
-            $accessible_repos[$repo['full_name']] = $repo;
-        }
-        foreach ($api->getUserOrgs()->getData() as $user_org) {
-            $organization = $user_org['login'];
-
-            foreach ($api->getOrgsRepos(array('organization' => $organization))->getData() as $repo) {
-                $accessible_repos[$repo['full_name']] = $repo;
-            }
-        }
+        $github           = new Github($backup_set);
+        $auth_user        = $github->getAuthenticatedUser();
+        $accessible_repos = $auth_user->getAllRepositories();
 
         foreach ($backup_set['repos'] as $pattern_name => $repo_pattern) {
             $repo_names = array_keys($accessible_repos);
