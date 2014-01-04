@@ -56,7 +56,7 @@ class Organization
             $this->org_repos,
             'all',
             function (Pimple $container) use ($self) {
-                return $container['api']->getOrgsRepos(array(
+                return $container['api']->getReposForSpecificOrg(array(
                     'org' => $self->getLogin(),
                 ))->getData();
             },

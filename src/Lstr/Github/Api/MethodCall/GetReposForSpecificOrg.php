@@ -4,7 +4,7 @@ namespace Lstr\Github\Api\MethodCall;
 
 use Lstr\Github\Api\MethodCall;
 
-class GetOrgsRepos extends MethodCall
+class GetReposForSpecificOrg extends MethodCall
 {
     protected function getRequiredArgumentsList()
     {

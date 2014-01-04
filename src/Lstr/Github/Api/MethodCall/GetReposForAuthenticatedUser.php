@@ -4,7 +4,7 @@ namespace Lstr\Github\Api\MethodCall;
 
 use Lstr\Github\Api\MethodCall;
 
-class GetUserRepos extends MethodCall
+class GetReposForAuthenticatedUser extends MethodCall
 {
     protected function process(array $args)
     {
