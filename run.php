@@ -20,6 +20,7 @@ try {
 
     foreach ($repository_list->getRepositories() as $repo) {
         $repo_mirror = new RepositoryMirror($repo['destination']);
+        $repo_mirror->setLogger($logger);
 
         try {
             $remote_url = $repo['remote_url'];

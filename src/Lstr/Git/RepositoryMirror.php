@@ -3,9 +3,13 @@
 namespace Lstr\Git;
 
 use Exception;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class RepositoryMirror
 {
+    private $logger;
     private $destination_path;
 
     private $remote_url;
@@ -16,6 +20,14 @@ class RepositoryMirror
     {
         $this->destination_path = $destination_path;
         $this->remote_url       = null;
+        $this->logger           = new NullLogger();
+    }
+
+
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
 
@@ -90,7 +102,6 @@ class RepositoryMirror
             . " "
             . escapeshellarg($this->destination_path)
             . " 2>&1";
-        echo "Running:\n  {$command}\n...";
         $results = $this->runCommand($command);
 
         // if there is a non-zero exit code or the exit code was not set,
@@ -101,7 +112,6 @@ class RepositoryMirror
                 $results
             );
         }
-        echo "done\n";
 
         $this->checkRemoteUrlAgainst($remote_url);
 
@@ -140,11 +150,14 @@ class RepositoryMirror
             'output'    => null,
             'exit_code' => null,
         );
+        $this->logger->debug("Running:");
+        $this->logger->debug("  {$command}...");
         $results['last_line'] = exec(
             $command,
             $results['output'],
             $results['exit_code']
         );
+        $this->logger->debug("  done");
 
         return $results;
     }
