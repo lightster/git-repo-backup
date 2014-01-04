@@ -56,8 +56,10 @@ class User
         return $this->container['lazy_loader']->lazyLoad(
             $this->user_orgs,
             'all',
-            $data_or_loader ?: function (Pimple $container) {
-                return $container['api']->getUserOrgs()->getData();
+            $data_or_loader ?: function (Pimple $container) use ($self) {
+                return $container['api']->getOrgsForSpecificUser(array(
+                    'user' => $self->getLogin(),
+                ))->getData();
             },
             function (Pimple $container, $data) use ($self) {
                 $orgs = array();
@@ -93,8 +95,10 @@ class User
         return $this->container['lazy_loader']->lazyLoad(
             $this->user_repos,
             'all',
-            $data_or_loader ?: function (Pimple $container) {
-                return $container['api']->getUserRepos()->getData();
+            $data_or_loader ?: function (Pimple $container) use ($self) {
+                return $container['api']->getReposForSpecificUser(array(
+                    'user' => $self->getLogin(),
+                ))->getData();
             },
             function (Pimple $container, $data) use ($self) {
                 $repos = array();
