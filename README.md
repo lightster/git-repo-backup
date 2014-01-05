@@ -59,17 +59,17 @@ Config files return a PHP array containing config options.
 
 Config files do not need to be stored anywhere specific since the path to the config file is passed in at run time.
 
-### verbose - boolean
+### `verbose` — boolean
 
 If verbose is set to false or is not set at all, only errors will be outputted.
 
-### repository_lists - array of `repository_specification` arrays
+### `repository_lists` — array of `repository_specification` arrays
 
 The key of each array item (e.g. 'github:lightster') is a name used only for debugging/error outputting.
 
 The value of each array item is a `repository_specification`.
 
-### repository_specification - array of options for specifying how to generate a repository list
+### `repository_specification` — array of options for specifying how to generate a repository list
 
 * `destination_location` should be a string containing the path to where repositories should be backed up. 
 
@@ -111,7 +111,7 @@ When using the GitHub loader, the following options are also required:
     * `exclude_pattern` — A regular expression that will be passed to `preg_grep`. Any repositories that match the regular expression will be excluded from the list of repositories to be backed up.
     * `exclude_forks` — A boolean to determine if forked repositories should be backed up. By default forks are included.
 
-    While none of the pattern filter options are required, at least one pattern set must be required. That is, to backup all repositories a blank pattern set must be provided:
+    While none of the pattern filter options are required, at least one pattern set must be provided. That is, to backup all repositories a blank pattern set must be provided:
     
         'patterns' => array(
             'all' => array(
