@@ -2,7 +2,7 @@
 
 Git Repo Backup will create backups of your remote git repositories.  Git Repo Backup makes use of `git clone --mirror` and `git remote update`.
 
-Git Repo Backup is configurable to use the GitHub API automatically adding new repos to the backup rotation as they are created on GitHub.
+Git Repo Backup is configurable to use the GitHub API to automatically add new repos to the backup rotation as they are created on GitHub.
 
 ## Dependencies
 
