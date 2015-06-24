@@ -10,7 +10,7 @@ class Organization
     private $container;
     private $data;
 
-    private $org_repos = array();
+    private $org_public_repos = array();
 
 
 
@@ -49,11 +49,11 @@ class Organization
 
 
 
-    public function getOrganizationRepositories()
+    public function getOrganizationUserPublicRepositories()
     {
         $self = $this;
         return $this->container['lazy_loader']->lazyLoad(
-            $this->org_repos,
+            $this->org_public_repos,
             'all',
             function (Pimple $container) use ($self) {
                 return $container['api']->getReposForSpecificOrg(array(
