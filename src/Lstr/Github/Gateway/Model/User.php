@@ -2,6 +2,7 @@
 
 namespace Lstr\Github\Gateway\Model;
 
+use Exception;
 use Lstr\Github\Api\Api;
 use Pimple;
 
@@ -10,9 +11,10 @@ class User
     private $container;
     private $data;
 
-    private $user_orgs       = array();
-    private $user_repos      = array();
-    private $user_orgs_repos = array();
+    private $user_public_orgs       = array();
+    private $user_public_repos      = array();
+    private $user_orgs_public_repos = array();
+    private $user_repos             = array();
 
 
 
@@ -50,11 +52,11 @@ class User
 
 
 
-    public function getOrganizations($data_or_loader = null)
+    public function getPublicOrganizations($data_or_loader = null)
     {
         $self = $this;
         return $this->container['lazy_loader']->lazyLoad(
-            $this->user_orgs,
+            $this->user_public_orgs,
             'all',
             $data_or_loader ?: function (Pimple $container) use ($self) {
                 return $container['api']->getOrgsForSpecificUser(array(
@@ -89,11 +91,11 @@ class User
 
 
 
-    public function getUserRepositories($data_or_loader = null)
+    public function getUserPublicRepositories($data_or_loader = null)
     {
         $self = $this;
         return $this->container['lazy_loader']->lazyLoad(
-            $this->user_repos,
+            $this->user_public_repos,
             'all',
             $data_or_loader ?: function (Pimple $container) use ($self) {
                 return $container['api']->getReposForSpecificUser(array(
@@ -115,7 +117,7 @@ class User
 
 
 
-    public function getOrganizationRepositories($organization = null)
+    public function getOrganizationUserPublicRepositories($organization = null)
     {
         $self      = $this;
         $all_repos = array();
@@ -123,15 +125,15 @@ class User
         if (null !== $organization) {
             $organizations = array($this->getOrganization($organization));
         } else {
-            $organizations = $this->getOrganizations();
+            $organizations = $this->getPublicOrganizations();
         }
 
         foreach ($organizations as $org) {
             $all_repos = $all_repos + $this->container['lazy_loader']->lazyLoad(
-                $this->user_orgs_repos,
+                $this->user_orgs_public_repos,
                 $org->getLogin(),
                 function (Pimple $container) use ($org) {
-                    return $org->getOrganizationRepositories();
+                    return $org->getOrganizationUserPublicRepositories();
                 }
             );
         }
@@ -141,9 +143,39 @@ class User
 
 
 
-    public function getAllRepositories()
+    public function getAllPublicRepositories()
     {
-        return $this->getUserRepositories()
-            + $this->getOrganizationRepositories();
+        return $this->getUserPublicRepositories()
+            + $this->getOrganizationUserPublicRepositories();
+    }
+
+
+
+    public function getAllRepositories($data_or_loader = null)
+    {
+        if ($this !== $this->container['root']->getAuthenticatedUser()) {
+            throw new Exception(
+                "Private repos can only be retrieved for the authenticated user."
+            );
+        }
+
+        $self = $this;
+        return $this->container['lazy_loader']->lazyLoad(
+            $this->user_repos,
+            'all',
+            $data_or_loader ?: function (Pimple $container) use ($self) {
+                return $container['api']->getReposForAuthenticatedUser()->getData();
+            },
+            function (Pimple $container, $data) use ($self) {
+                $repos = array();
+                foreach ($data as $repo) {
+                    $repos[$repo['full_name']] = $self->getUserRepository(
+                        $repo['name'],
+                        $repo
+                    );
+                }
+                return $repos;
+            }
+        );
     }
 }
