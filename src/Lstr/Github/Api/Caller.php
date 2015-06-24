@@ -49,8 +49,13 @@ class Caller
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
 
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $raw_headers = substr($response, 0, $header_size);
+        $output = substr($response, $header_size);
 
         if ($error_number = curl_errno($ch)) {
             throw new Exception\Curl(
@@ -68,7 +73,8 @@ class Caller
 
         $return = new Response(
             $http_code,
-            $response_data
+            $response_data,
+            $raw_headers
         );
 
         return $return;

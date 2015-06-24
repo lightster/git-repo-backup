@@ -164,7 +164,27 @@ class User
             $this->user_repos,
             'all',
             $data_or_loader ?: function (Pimple $container) use ($self) {
-                return $container['api']->getReposForAuthenticatedUser()->getData();
+                $repos = [];
+
+                $response = $container['api']->getReposForAuthenticatedUser();
+                do {
+                    $repos = array_merge($repos, $response->getData());
+
+                    preg_match(
+                        '/Link:.*<.*?page=([0-9]+)>;.*?rel="next"/',
+                        $response->getRawHeaders(),
+                        $next_info
+                    );
+
+                    $response = null;
+                    if ($next_info) {
+                        $response = $container['api']->getReposForAuthenticatedUser([
+                            'page' => $next_info[1],
+                        ]);
+                    }
+                } while ($response);
+
+                return $repos;
             },
             function (Pimple $container, $data) use ($self) {
                 $repos = array();
